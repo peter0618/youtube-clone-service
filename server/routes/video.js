@@ -62,6 +62,17 @@ router.get('/getVideos', (req, res) => {
         })
 })
 
+router.post('/getVideoDetail', (req, res) => {
+
+    // 비디오를 DB에서 가져와서 클라이언트에 보낸다.
+    Video.findOne({"_id": req.body.videoId})
+        .populate('writer')
+        .exec((err, videoDetail) => {
+            if(err) return res.status(400).send(err);
+            res.status(200).json({ success:true, videoDetail })
+        })
+})
+
 router.post('/thumbnail', (req, res) => {
 
     // 썸네일 생성 하고 비디오 러닝타임도 기져오기
